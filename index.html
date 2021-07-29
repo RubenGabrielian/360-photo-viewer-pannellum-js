@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A simple example</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+    <style>
+        #panorama {
+            width: 600px;
+            height: 400px;
+        }
+        .custom-hotspot {
+            height: 25px;
+            width: 25px;
+            background:#ddd;
+            border-radius: 50%;
+        }
+        div.custom-tooltip span {
+            visibility: hidden;
+            position: absolute;
+            border-radius: 3px;
+            background-color: #fff;
+            color: #000;
+            text-align: center;
+            max-width: 200px;
+            padding: 5px 10px;
+            margin-left: -220px;
+            cursor: default;
+        }
+        div.custom-tooltip:hover span{
+            visibility: visible;
+        }
+        div.custom-tooltip:hover span:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-width: 10px;
+            border-style: solid;
+            border-color: #fff transparent transparent transparent;
+            bottom: -20px;
+            left: -10px;
+            margin: 0 50%;
+        }
+        </style>
+</head>
+<body>
+
+<div id="panorama"></div>
+<script>
+pannellum.viewer('panorama', {
+    "autoLoad": true,
+    "default": {
+        "firstScene": "circle",
+        "author": "Matthew Petroff",
+        "sceneFadeDuration": 1000
+    },
+
+    "scenes": {
+        "circle": {
+            "title": "Mason Circle",
+            "hfov": 110,
+            "pitch": -3,
+            "yaw": 117,
+            "type": "equirectangular",
+            "panorama": "https://l13.alamy.com/360/T2X9J1/minsk-belarus-august-2017-full-seamless-panorama-360-degrees-angle-inside-interior-of-banquet-hall-in-elite-cafe-in-modern-hotel-360-panorama-in-T2X9J1.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 280,
+                    "type": "scene",
+                    "text": "Spring House or Dairy",
+                    "sceneId": "house"
+                }
+            ]
+        },
+
+        "house": {
+            "title": "Spring House or Dairy",
+            "hfov": 110,
+            "yaw": 5,
+            "type": "equirectangular",
+            "panorama": "https://l13.alamy.com/360/RP999D/minsk-belarus-august-2017-full-panorama-360-angle-view-seamless-inside-interior-of-large-banquet-hall-in-modern-hotel-in-equirectangular-spherica-RP999D.jpg",
+            "hotSpots": [
+                {
+                    "pitch": -0.6,
+                    "yaw": 37.1,
+                    "type": "scene",
+                    "text": "Mason Circle",
+                    "sceneId": "circle",
+                    "targetYaw": -23,
+                    "targetPitch": 2
+                }
+            ]
+        }
+    }
+});
+
+function hotspot(hotSpotDiv, args) {
+    hotSpotDiv.classList.add('custom-tooltip');
+    var span = document.createElement('span');
+    span.innerHTML = args;
+    hotSpotDiv.appendChild(span);
+    span.style.width = span.scrollWidth - 20 + 'px';
+    span.style.marginLeft = -(span.scrollWidth - hotSpotDiv.offsetWidth) / 2 + 'px';
+    span.style.marginTop = -span.scrollHeight - 12 + 'px';
+}
+</script>
+
+</body>
+</html>
