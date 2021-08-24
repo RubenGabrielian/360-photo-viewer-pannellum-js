@@ -1,22 +1,33 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A simple example</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css" />
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
     <style>
-        #panorama {
-            width: 600px;
-            height: 400px;
+        body {
+           background-image: url('./images/email-pattern.png');
         }
+        #panorama {
+            width: 70vw;
+            height: 70vh;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0px 0px 18px -6px;
+        }
+
         .custom-hotspot {
             height: 25px;
             width: 25px;
-            background:#ddd;
+            background: #ddd;
             border-radius: 50%;
         }
+
         div.custom-tooltip span {
             visibility: hidden;
             position: absolute;
@@ -29,9 +40,11 @@
             margin-left: -220px;
             cursor: default;
         }
-        div.custom-tooltip:hover span{
+
+        div.custom-tooltip:hover span {
             visibility: visible;
         }
+
         div.custom-tooltip:hover span:after {
             content: '';
             position: absolute;
@@ -44,70 +57,72 @@
             left: -10px;
             margin: 0 50%;
         }
-        </style>
+    </style>
 </head>
+
 <body>
 
-<div id="panorama"></div>
-<script>
-pannellum.viewer('panorama', {
-    "autoLoad": true,
-    "default": {
-        "firstScene": "circle",
-        "author": "Matthew Petroff",
-        "sceneFadeDuration": 1000
-    },
+    <div id="panorama"></div>
+    <script>
+        pannellum.viewer('panorama', {
+            "autoLoad": true,
+            "default": {
+                "firstScene": "circle",
+                "author": "Matthew Petroff",
+                "sceneFadeDuration": 1000
+            },
 
-    "scenes": {
-        "circle": {
-            "title": "Mason Circle",
-            "hfov": 110,
-            "pitch": -3,
-            "yaw": 117,
-            "type": "equirectangular",
-            "panorama": "/images/pano.jpg",
-            "hotSpots": [
-                {
-                    "pitch": 0,
-                    "yaw": 280,
-                    "type": "scene",
-                    "text": "Spring House or Dairy",
-                    "sceneId": "house"
-                }
-            ]
-        },
+            "scenes": {
+                "circle": {
+                    "title": "Mason Circle",
+                    "hfov": 110,
+                    "pitch": -3,
+                    "yaw": 117,
+                    "type": "equirectangular",
+                    "panorama": "./images/processed.jpg",
+                    "hotSpots": [
+                        {
+                            "pitch": 0,
+                            "yaw": 280,
+                            "type": "scene",
+                            "text": "Spring House or Dairy",
+                            "sceneId": "house"
+                        }
+                    ]
+                },
 
-        "house": {
-            "title": "Spring House or Dairy",
-            "hfov": 110,
-            "yaw": 5,
-            "type": "equirectangular",
-            "panorama": "https://l13.alamy.com/360/RP999D/minsk-belarus-august-2017-full-panorama-360-angle-view-seamless-inside-interior-of-large-banquet-hall-in-modern-hotel-in-equirectangular-spherica-RP999D.jpg",
-            "hotSpots": [
-                {
-                    "pitch": -0.6,
-                    "yaw": 37.1,
-                    "type": "scene",
-                    "text": "Mason Circle",
-                    "sceneId": "circle",
-                    "targetYaw": -23,
-                    "targetPitch": 2
+                "house": {
+                    "title": "Spring House or Dairy",
+                    "hfov": 110,
+                    "yaw": 5,
+                    "type": "equirectangular",
+                    "panorama": "https://l13.alamy.com/360/RP999D/minsk-belarus-august-2017-full-panorama-360-angle-view-seamless-inside-interior-of-large-banquet-hall-in-modern-hotel-in-equirectangular-spherica-RP999D.jpg",
+                    "hotSpots": [
+                        {
+                            "pitch": -0.6,
+                            "yaw": 37.1,
+                            "type": "scene",
+                            "text": "Mason Circle",
+                            "sceneId": "circle",
+                            "targetYaw": -23,
+                            "targetPitch": 2
+                        }
+                    ]
                 }
-            ]
+            }
+        });
+
+        function hotspot(hotSpotDiv, args) {
+            hotSpotDiv.classList.add('custom-tooltip');
+            var span = document.createElement('span');
+            span.innerHTML = args;
+            hotSpotDiv.appendChild(span);
+            span.style.width = span.scrollWidth - 20 + 'px';
+            span.style.marginLeft = -(span.scrollWidth - hotSpotDiv.offsetWidth) / 2 + 'px';
+            span.style.marginTop = -span.scrollHeight - 12 + 'px';
         }
-    }
-});
-
-function hotspot(hotSpotDiv, args) {
-    hotSpotDiv.classList.add('custom-tooltip');
-    var span = document.createElement('span');
-    span.innerHTML = args;
-    hotSpotDiv.appendChild(span);
-    span.style.width = span.scrollWidth - 20 + 'px';
-    span.style.marginLeft = -(span.scrollWidth - hotSpotDiv.offsetWidth) / 2 + 'px';
-    span.style.marginTop = -span.scrollHeight - 12 + 'px';
-}
-</script>
+    </script>
 
 </body>
+
 </html>
